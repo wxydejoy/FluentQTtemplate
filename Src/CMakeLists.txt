@@ -10,7 +10,17 @@ set(RESOURCES_DIR "${PROJECT_SOURCE_DIR}/Resources")
 set(QRC_DIR "${RESOURCES_DIR}/Files")
 set(TRANSLATIONS_DIR "${RESOURCES_DIR}/Translations")
 
-find_package(Qt5 COMPONENTS REQUIRED ${QT_COMPONENTS} LinguistTools)
+# find_package(Qt5 COMPONENTS REQUIRED ${QT_COMPONENTS} LinguistTools)
+
+
+find_package(Qt6 COMPONENTS ${QT_COMPONENTS} LinguistTools QUIET)
+if (NOT Qt6_FOUND)
+    find_package(Qt5 COMPONENTS ${QT_COMPONENTS} LinguistTools REQUIRED)
+    set(QT_LIB_PREFIX "Qt5")
+else()
+    set(QT_LIB_PREFIX "Qt6")
+endif()
+
 list_add_prefix(QT_LIBS "Qt::" ${QT_COMPONENTS})
 
 # 扫描本地化翻译文件
@@ -27,7 +37,11 @@ endforeach()
 list(JOIN quoted_locale_names ", " LOCALES_NAME_ARRAY)
 
 # 自定义 Target: 本地化
-qt5_create_translation(QM_FILES ${PROJECT_SOURCE_DIR} ${LOCALIZATION_FILES})
+if(${QT_LIB_PREFIX} STREQUAL "Qt6")
+    qt_create_translation(QM_FILES ${PROJECT_SOURCE_DIR} ${LOCALIZATION_FILES})
+else()
+    qt5_create_translation(QM_FILES ${PROJECT_SOURCE_DIR} ${LOCALIZATION_FILES})
+endif()
 add_custom_target(UpdateTranslation ALL DEPENDS ${QM_FILES})
 
 # 解析 *.qrc 资源文件
@@ -40,9 +54,13 @@ foreach(item IN LISTS QRC_FILES)
         list(APPEND SMALL_QRC_FILES ${item})
     endif()
 endforeach()
-qt5_add_resources(RESOURCES_FILES ${SMALL_QRC_FILES})
-qt5_add_big_resources(BIG_RESOURCES_FILE ${BIG_QRC_FILES})
-
+if(${QT_LIB_PREFIX} STREQUAL "Qt6")
+    qt_add_resources(RESOURCES_FILES ${SMALL_QRC_FILES})
+    qt_add_resources(BIG_RESOURCES_FILE ${BIG_QRC_FILES})
+else()
+    qt5_add_resources(RESOURCES_FILES ${SMALL_QRC_FILES})
+    qt5_add_big_resources(BIG_RESOURCES_FILE ${BIG_QRC_FILES})
+endif()
 # Target: 主程序
 list_add_prefix(SRC_EXPRESSIONS "${MAIN_DIR}/" "*.ui" "*.c" "*.cpp" "*.hpp" "*.cc")
 file(GLOB_RECURSE MAIN_SOURCES LIST_DIRECTORIES true ${SRC_EXPRESSIONS})
@@ -54,15 +72,14 @@ foreach (item IN LISTS MAIN_SOURCES)
     endif()
     list(APPEND MAIN_SRC ${item})
 endforeach()
-
+# message(bbbbbbbbb${OTHER_INCLUDE_DIR})
 # Dependencies
-list(APPEND MAIN_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/Dependencies)
+list(APPEND MAIN_INCLUDE_DIR ${OTHER_INCLUDE_DIR})
 link_directories(${CMAKE_SOURCE_DIR}/Dependencies)
 
+message(=========${OTHER_INCLUDE_DIR})
 
-add_library(MainLibrary STATIC ${MAIN_SRC} ${LOCALIZATION_FILES}
-    Main/ihbpage.h Main/ihbpage.cpp
-    Main/ihbhome.h Main/ihbhome.cpp)
+add_library(MainLibrary STATIC ${MAIN_SRC} ${LOCALIZATION_FILES})
 target_include_directories(MainLibrary PUBLIC ${MAIN_INCLUDE_DIR} )
 target_link_libraries(MainLibrary PUBLIC ${QT_LIBS} ${OTHER_LIBS} )
 target_compile_definitions(MainLibrary PUBLIC -DLOCALE_PREFIX="${LOCALE_PREFIX}")

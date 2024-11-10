@@ -5,7 +5,7 @@
 
 #include <QFontDatabase>
 #include <QFont>
-
+#include <QScreen>
 #include "mainwindow.h"
 
 // 这个数组的内容来自 CMakeLists.txt 中对于支持的语言的设置
@@ -13,67 +13,61 @@ const char *supportedLocales[] = { LOCALES_NAME_ARRAY };
 
 // 入口 main 函数
 int main(int argc, char* argv[]) {
-    // QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
-    // qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "0");
-    // QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
-
 
 #if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
     QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
-#else
-    //根据实际屏幕缩放比例更改
-    qputenv("QT_SCALE_FACTOR", "1.5");
+    #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+        QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+        QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+    #else
+        //根据实际屏幕缩放比例更改
+        qputenv("QT_SCALE_FACTOR", "1");
+    #endif
 #endif
-#endif
+
     QApplication app(argc, argv);
-    // 获取字体数据库实例
-    // 加载第一个自定义字体并获取其家族名称
-    int fontIdA = QFontDatabase::addApplicationFont(":/include/Font/思源黑体-Medium.otf");  // 使用资源路径
-    QStringList fontFamiliesA = QFontDatabase::applicationFontFamilies(fontIdA);
-    if (fontFamiliesA.isEmpty()) {
-        qWarning() << "无法加载 CustomFontA.ttf";
-    }
+    QFontDatabase::addApplicationFont(":/include/Font/ElaAwesome.ttf");
+    // QFontDatabase::addApplicationFont(":/include/Font/AA.ttf");
 
-    // 加载第二个自定义字体并获取其家族名称
-    int fontIdB = QFontDatabase::addApplicationFont(":/include/Font/ElaAwesome.ttf");
-    QStringList fontFamiliesB = QFontDatabase::applicationFontFamilies(fontIdB);
-    if (fontFamiliesB.isEmpty()) {
-        qWarning() << "无法加载 CustomFontB.ttf";
-    }
-
-    // 创建字体，并将两个自定义字体的家族名称作为系列
-    QFont customFont;
-    if (!fontFamiliesA.isEmpty() && !fontFamiliesB.isEmpty()) {
-        customFont.setFamily(fontFamiliesA.at(0) + ", " + fontFamiliesB.at(0));  // 设置优先级
-    } else {
-        customFont.setFamily("Arial");  // 默认字体
-    }
-    customFont.setPointSize(14);
-
-    app.setFont(customFont);
-
-    // 获取默认 QLocale 对象
-    QLocale defaultLocale = []() -> QString {
-        QString systemLocale = QLocale::system().name();
-        for (const char* local : supportedLocales) {
-            if (systemLocale == local) {
+    QLocale defaultLocale = []() -> QLocale {
+        QLocale systemLocale = QLocale::system();
+        for (const char* locale : supportedLocales) {
+            if (systemLocale.name() == locale) {
                 return systemLocale;
             }
         }
-        return supportedLocales[0];
+        return QLocale(supportedLocales[0]);
     }();
 
-    // 设置 Translator 对象
     QTranslator translator;
-    translator.load(defaultLocale, LOCALE_PREFIX, "_", "./");
-    QApplication::installTranslator(&translator);
+
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    // Qt6 中的加载方式
+    if (translator.load(defaultLocale, QString::fromUtf8(LOCALE_PREFIX), QStringLiteral("_"), QStringLiteral("./"))) {
+        qApp->installTranslator(&translator);
+    } else {
+        qWarning() << "Failed to load translation for locale:" << defaultLocale.name();
+    }
+#else
+    // Qt5 中的加载方式
+    if (translator.load(defaultLocale.name(), QString::fromUtf8(LOCALE_PREFIX), QStringLiteral("_"), QStringLiteral("./"))) {
+        qApp->installTranslator(&translator);
+    } else {
+        qWarning() << "Failed to load translation for locale:" << defaultLocale.name();
+    }
+#endif
+
+
+    QFont font("最像素体");
+    // qt 6 必须
+    font.setHintingPreference(QFont::PreferNoHinting);
+
+    app.setFont(font);
+
 
     // 运行主窗口
     MainWindow mv;
-    // mv.setWindowIcon(QIcon(":/Qt_48x48.ico"));
     mv.show();
 
     return QApplication::exec();

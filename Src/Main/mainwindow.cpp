@@ -3,27 +3,26 @@
 // #include
 #include <QMessageBox>
 
-// #include "ElaWindow.h"
-#include "ElaWidgetTools/include/ElaWindow.h"
+#include "ElaWindow.h"
 
 
 
-// #include "ElaContentDialog.h"
-// #include "ElaDockWidget.h"
-// #include "ElaEventBus.h"
-// #include "ElaLog.h"
-// #include "ElaMenu.h"
-// #include "ElaMenuBar.h"
-// #include "ElaProgressBar.h"
-// #include "ElaStatusBar.h"
-// #include "ElaText.h"
-// #include "ElaTheme.h"
-// #include "ElaToolBar.h"
-// #include "ElaToolButton.h"
+#include "ElaContentDialog.h"
+#include "ElaDockWidget.h"
+#include "ElaEventBus.h"
+#include "ElaLog.h"
+#include "ElaMenu.h"
+#include "ElaMenuBar.h"
+#include "ElaProgressBar.h"
+#include "ElaStatusBar.h"
+#include "ElaText.h"
+#include "ElaTheme.h"
+#include "ElaToolBar.h"
+#include "ElaToolButton.h"
 #include <QDebug>
 
 #include "ihbhome.h"
-#include "T_Home.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     ElaWindow(parent)//,
     // ui(new Ui::MainWindow)
@@ -31,16 +30,16 @@ MainWindow::MainWindow(QWidget *parent) :
     // setIsEnableMica(true);
     // setIsCentralStackedWidgetTransparent(true);
     // setWindowIcon(QIcon(":/include/Image/Cirno.jpg"));
-    resize(1200, 740);
+    resize(1600, 800);
     // ElaLog::getInstance()->initMessageLog(true);
     // eTheme->setThemeMode(ElaThemeType::Dark);
     // setIsNavigationBarEnable(false);
     setNavigationBarDisplayMode(ElaNavigationType::Compact);
     // setWindowButtonFlag(ElaAppBarType::MinimizeButtonHint, false);
     setUserInfoCardPixmap(QPixmap(":/include/Image/shoreKeeper200.png"));
-    setUserInfoCardTitle("weiekko");
-    setUserInfoCardSubTitle("weiekko@gmail.com");
-    setWindowTitle("FluentIHB");
+    setUserInfoCardTitle("Weiekko");
+    setUserInfoCardSubTitle("Weiekko@gmail.com");
+    setWindowTitle("IHB");
     setIsStayTop(true);
     // setUserInfoCardVisible(false);
     moveToCenter();

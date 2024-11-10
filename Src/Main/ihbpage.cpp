@@ -5,10 +5,10 @@
 #include <QDebug>
 
 
-#include "ElaWidgetTools/include/ElaMenu.h"
-#include "ElaWidgetTools/include/ElaText.h"
-#include "ElaWidgetTools/include/ElaTheme.h"
-#include "ElaWidgetTools/include/ElaToolButton.h"
+#include "ElaMenu.h"
+#include "ElaText.h"
+#include "ElaTheme.h"
+#include "ElaToolButton.h"
 
 IhbPage::IhbPage(QWidget *parent)
     : ElaScrollPage(parent)

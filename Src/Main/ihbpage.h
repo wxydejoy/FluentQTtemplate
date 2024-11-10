@@ -2,7 +2,8 @@
 #define IHBPAGE_H
 
 #include <QWidget>
-#include "ElaWidgetTools/include/ElaScrollPage.h"
+// #include "ElaWidgetTools/include/ElaScrollPage.h"
+#include "ElaScrollPage.h"
 class QVBoxLayout;
 class IhbPage :public ElaScrollPage
 {

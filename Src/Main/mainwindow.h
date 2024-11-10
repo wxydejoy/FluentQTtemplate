@@ -2,9 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "ElaWidgetTools/include/ElaWindow.h"
+#include "ElaWindow.h"
 #include "ihbhome.h"
-#include "T_Home.h"
+// #include "T_Home.h"
 namespace Ui {
 class MainWindow;
 }

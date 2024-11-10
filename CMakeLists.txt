@@ -8,8 +8,12 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(QT_COMPONENTS Core Gui Widgets)
 set(OTHER_LIBS)
+set(OTHER_INCLUDE_DIR)
+
 
 set(QT_PROJECT_LOCALES "zh_CN" "en_US")
+
+
 
 option(ENABLE_TEST "Enable Unit Test" OFF)
 

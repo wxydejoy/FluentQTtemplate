@@ -1,16 +1,19 @@
 #include "ihbhome.h"
 #include "ihbpage.h"
-#include "ElaWidgetTools/include/ElaAcrylicUrlCard.h"
-#include "ElaWidgetTools/include/ElaFlowLayout.h"
-#include "ElaWidgetTools/include/ElaImageCard.h"
-#include "ElaWidgetTools/include/ElaMenu.h"
-#include "ElaWidgetTools/include/ElaMessageBar.h"
-#include "ElaWidgetTools/include/ElaNavigationRouter.h"
-#include "ElaWidgetTools/include/ElaPopularCard.h"
-#include "ElaWidgetTools/include/ElaScrollArea.h"
-#include "ElaWidgetTools/include/ElaText.h"
-#include "ElaWidgetTools/include/ElaToolTip.h"
+#include "ElaAcrylicUrlCard.h"
+#include "ElaFlowLayout.h"
+#include "ElaImageCard.h"
+#include "ElaMenu.h"
+#include "ElaMessageBar.h"
+#include "ElaNavigationRouter.h"
+#include "ElaPopularCard.h"
+#include "ElaScrollArea.h"
+#include "ElaText.h"
+#include "ElaToolTip.h"
 
+// #include "
+
+// #include "
 
 #include <QDebug>
 #include <QDesktopServices>

@@ -8,10 +8,6 @@
         <file>Image/shoreKeeper.png</file>
         <file>Image/shoreKeeper200.png</file>
         <file>Image/shoreKeeper400.png</file>
-        <file>Font/思源黑体-Normal.otf</file>
-        <file>Font/思源黑体-Regular.otf</file>
-        <file>Font/目哉像素orig.ttf</file>
-        <file>Font/思源黑体-Medium.otf</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
