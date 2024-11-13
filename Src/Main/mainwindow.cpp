@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     // setIsEnableMica(true);
     // setIsCentralStackedWidgetTransparent(true);
-    // setWindowIcon(QIcon(":/include/Image/Cirno.jpg"));
+    setWindowIcon(QIcon(":/include/Image/shoreKeeper200.png"));
     resize(1600, 800);
     // ElaLog::getInstance()->initMessageLog(true);
     // eTheme->setThemeMode(ElaThemeType::Dark);
@@ -45,8 +45,10 @@ MainWindow::MainWindow(QWidget *parent) :
     moveToCenter();
     homePage = new IhbHome(this);
 
+    IhbHome* errpage = new IhbHome(this);
     qDebug() << "初始化成功2";
     addPageNode("HOME", homePage, ElaIconType::House);
+    addPageNode("ERR", errpage, ElaIconType::House);
     qDebug() << "初始化成功3";
     // page = new IhbPage(this);
     // addPageNode("HOME", page, ElaIconType::House);

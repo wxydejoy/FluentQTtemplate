@@ -1,5 +1,10 @@
 
-set(OTHER_LIBS ElaWidgetTools PARENT_SCOPE)
+
+
+
+
+
+set(OTHER_LIBS ElaWidgetTools qcustomplot2 PARENT_SCOPE)
 set(OTHER_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/Dependencies/ElaWidgetTools/include ${CMAKE_SOURCE_DIR}/Dependencies PARENT_SCOPE)
 
 # set(OTHER_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/Dependencies/ElaWidgetTools/include ${CMAKE_SOURCE_DIR}/Dependencies PARENT_SCOPE)
