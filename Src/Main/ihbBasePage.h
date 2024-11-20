@@ -1,15 +1,15 @@
-#ifndef IHBPAGE_H
-#define IHBPAGE_H
+#ifndef IHBBASEPAGE_H
+#define IHBBASEPAGE_H
 
 #include <QWidget>
 // #include "ElaWidgetTools/include/ElaScrollPage.h"
 #include "ElaScrollPage.h"
 class QVBoxLayout;
-class IhbPage :public ElaScrollPage
+class IhbBasePage :public ElaScrollPage
 {
     Q_OBJECT
 public:
-    explicit IhbPage(QWidget *parent = nullptr);
+    explicit IhbBasePage(QWidget *parent = nullptr);
 
 signals:
 
@@ -17,4 +17,4 @@ signals:
     // void createCustomWidget(QString desText);
 };
 
-#endif // IHBPAGE_H
+#endif // ihbBasePage_H

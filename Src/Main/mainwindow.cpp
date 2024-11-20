@@ -21,8 +21,10 @@
 #include "ElaToolButton.h"
 #include <QDebug>
 
-#include "ihbhome.h"
-
+#include "ihbHome.h"
+#include "ihbConnect.h"
+#include "IhbDebug.h"
+#include "ihbControl.h"
 MainWindow::MainWindow(QWidget *parent) :
     ElaWindow(parent)//,
     // ui(new Ui::MainWindow)
@@ -45,12 +47,19 @@ MainWindow::MainWindow(QWidget *parent) :
     moveToCenter();
     homePage = new IhbHome(this);
 
-    IhbHome* errpage = new IhbHome(this);
+    // IhbHome* errpage = new IhbHome(this);
+
+    IhbConnect* connectpage = new IhbConnect(this);
+    IhbDebug* debugpage = new IhbDebug(this);
+    IhbControl* controlpage = new IhbControl(this);
     qDebug() << "初始化成功2";
     addPageNode("HOME", homePage, ElaIconType::House);
-    addPageNode("ERR", errpage, ElaIconType::House);
+    // addPageNode("ERR", errpage, ElaIconType::House);
+    addPageNode("CONNECT", connectpage, ElaIconType::ChartNetwork);
+    addPageNode("DEBUG", debugpage, ElaIconType::GameBoard);
+    addPageNode("CONTROL", controlpage, ElaIconType::Gear);
     qDebug() << "初始化成功3";
-    // page = new IhbPage(this);
+    // page = new ihbBasePage(this);
     // addPageNode("HOME", page, ElaIconType::House);
     // addPageNode()
 }

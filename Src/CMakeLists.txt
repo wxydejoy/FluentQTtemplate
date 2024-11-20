@@ -86,11 +86,11 @@ target_compile_definitions(MainLibrary PUBLIC -DLOCALE_PREFIX="${LOCALE_PREFIX}"
 target_compile_definitions(MainLibrary PUBLIC -DLOCALES_NAME_ARRAY=${LOCALES_NAME_ARRAY})
 
 # Target: 主程序入口
-if (WIN32 AND ${CMAKE_BUILD_TYPE} STREQUAL "Release")
-    add_executable(${PROJECT_NAME} WIN32 EntryPoint.cpp ${RESOURCES_FILES} ${BIG_RESOURCES_FILE})
-else()
-    add_executable(${PROJECT_NAME} EntryPoint.cpp ${RESOURCES_FILES} ${BIG_RESOURCES_FILE})
-endif()
+# if (WIN32 AND ${CMAKE_BUILD_TYPE} STREQUAL "Release")
+    # add_executable(${PROJECT_NAME} WIN32 EntryPoint.cpp ${RESOURCES_FILES} ${BIG_RESOURCES_FILE})
+# else()
+add_executable(${PROJECT_NAME} EntryPoint.cpp ${RESOURCES_FILES} ${BIG_RESOURCES_FILE})
+# endif()
 target_link_libraries(${PROJECT_NAME} PUBLIC MainLibrary)
 
 # TODO 自动化测试

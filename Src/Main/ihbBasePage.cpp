@@ -1,4 +1,4 @@
-#include "ihbpage.h"
+#include "ihbBasePage.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -10,7 +10,7 @@
 #include "ElaTheme.h"
 #include "ElaToolButton.h"
 
-IhbPage::IhbPage(QWidget *parent)
+IhbBasePage::IhbBasePage(QWidget *parent)
     : ElaScrollPage(parent)
 {
 

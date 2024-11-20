@@ -1,5 +1,5 @@
-#include "ihbhome.h"
-#include "ihbpage.h"
+#include "ihbHome.h"
+#include "ihbBasePage.h"
 #include "ElaAcrylicUrlCard.h"
 #include "ElaFlowLayout.h"
 #include "ElaImageCard.h"
@@ -26,10 +26,10 @@
 #include <QRandomGenerator>
 
 #include "qcustomplot.h"
-
+// #include "rclcpp/rclcpp.hpp"
 
 IhbHome::IhbHome(QWidget* parent)
-    : IhbPage(parent) {
+    : IhbBasePage(parent) {
     setWindowTitle("Home1");
     setTitleVisible(true);
 
