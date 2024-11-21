@@ -10,6 +10,10 @@
 #include "ElaScrollArea.h"
 #include "ElaText.h"
 #include "ElaToolTip.h"
+#include "ElaPromotionCard.h"
+#include "ElaPromotionView.h"
+#include "ElaScrollPageArea.h"
+#include "ElaToggleSwitch.h"
 
 // #include "
 
@@ -30,47 +34,95 @@
 
 IhbHome::IhbHome(QWidget* parent)
     : IhbBasePage(parent) {
-    setWindowTitle("Home1");
+    // setWindowTitle("Home");
     setTitleVisible(true);
 
 
-    // 创建主容器 QWidget
-    // QWidget mainWidget;
-    QWidget* mainWidget = new QWidget(this);
-    mainWidget->setWindowTitle("QCustomPlot in QWidget 示例");
+
+    _promotionView = new ElaPromotionView(this);
+    // _promotionView->setCardExpandWidth(1);
+
+
+    ElaPromotionCard* exampleCard1 = new ElaPromotionCard(this);
+    exampleCard1->setHorizontalCardPixmapRatio(20);
+    exampleCard1->setCardPixmap(QPixmap(":/include/Image/Cirno.jpg"));
+    exampleCard1->setCardTitle("MiKu");
+    exampleCard1->setPromotionTitle("SONG~");
+    exampleCard1->setTitle("STYX HELIX");
+    exampleCard1->setSubTitle("Never close your eyes, Searching for a true fate");
+
+    ElaPromotionCard* exampleCard2 = new ElaPromotionCard(this);
+    exampleCard2->setCardPixmap(QPixmap(":/include/Image/Cirno.jpg"));
+    exampleCard2->setCardTitle("Beach");
+    exampleCard2->setPromotionTitle("SONG~");
+    exampleCard2->setTitle("STYX HELIX");
+    exampleCard2->setSubTitle("Never close your eyes, Searching for a true fate");
+
+    ElaPromotionCard* exampleCard3 = new ElaPromotionCard(this);
+    exampleCard3->setCardPixmap(QPixmap(":/include/Image/Cirno.jpg"));
+    exampleCard3->setCardTitle("Dream");
+    exampleCard3->setPromotionTitle("SONG~");
+    exampleCard3->setTitle("STYX HELIX");
+    exampleCard3->setSubTitle("Never close your eyes, Searching for a true fate");
+
+    ElaPromotionCard* exampleCard4 = new ElaPromotionCard(this);
+    exampleCard4->setCardPixmap(QPixmap(":/include/Image/Cirno.jpg"));
+    exampleCard4->setCardTitle("Classroom");
+    exampleCard4->setPromotionTitle("SONG~");
+    exampleCard4->setTitle("STYX HELIX");
+    exampleCard4->setSubTitle("Never close your eyes, Searching for a true fate");
+
+    _promotionView->appendPromotionCard(exampleCard1);
+    _promotionView->appendPromotionCard(exampleCard2);
+    _promotionView->appendPromotionCard(exampleCard3);
+    _promotionView->appendPromotionCard(exampleCard4);
+    _promotionView->setIsAutoScroll(true);
+
+
+
+    ElaToggleSwitch* _toggleSwitch = new ElaToggleSwitch(this);
+    ElaScrollPageArea* toggleSwitchArea = new ElaScrollPageArea(this);
+    QHBoxLayout* toggleSwitchLayout = new QHBoxLayout(toggleSwitchArea);
+    ElaText* toggleSwitchText = new ElaText("ElaToggleSwitch", this);
+    toggleSwitchText->setTextPixelSize(15);
+    toggleSwitchLayout->addWidget(toggleSwitchText);
+    toggleSwitchLayout->addWidget(_toggleSwitch);
+
+    for(int i = 0;i<1;i++){
+        ElaToggleSwitch* _toggleSwitch = new ElaToggleSwitch(this);
+        toggleSwitchLayout->addWidget(_toggleSwitch);
+    }
+
+
+    toggleSwitchLayout->addStretch();
+    ElaToggleSwitch* toggleSwitchDisableSwitch = new ElaToggleSwitch(this);
+    ElaText* toggleSwitchDisableText = new ElaText("禁用", this);
+    toggleSwitchDisableText->setTextPixelSize(15);
+    // connect(toggleSwitchDisableSwitch, &ElaToggleSwitch::toggled, this, [=](bool checked) {
+    //     _toggleSwitch->setDisabled(checked);
+    // });
+    toggleSwitchLayout->addWidget(toggleSwitchDisableSwitch);
+    toggleSwitchLayout->addWidget(toggleSwitchDisableText);
+    toggleSwitchLayout->addSpacing(10);
+
+
+
 
     // 创建一个垂直布局
     QVBoxLayout *layout = new QVBoxLayout();
 
-    // 创建 QCustomPlot 对象
-
-    customPlot->setBackground(QColor("#F8F8F8"));
 
 
 
-    customPlot->addGraph(); // blue line
-    customPlot->graph(0)->setPen(QPen(QColor(40, 110, 255)));
-    customPlot->addGraph(); // red line
-    customPlot->graph(1)->setPen(QPen(QColor(255, 110, 40)));
 
-    QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
-    timeTicker->setTimeFormat("%h:%m:%s");
-    customPlot->xAxis->setTicker(timeTicker);
-    customPlot->axisRect()->setupFullAxesBox();
-    customPlot->yAxis->setRange(-1.2, 1.2);
-
-    // make left and bottom axes transfer their ranges to right and top axes:
-    connect(customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->xAxis2, SLOT(setRange(QCPRange)));
-    connect(customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), customPlot->yAxis2, SLOT(setRange(QCPRange)));
-
-
-    dataTimer = new QTimer();
-
-    // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
-    connect(dataTimer, SIGNAL(timeout()), this, SLOT(realtimeDataSlot()));
-    dataTimer->start(0); // Interval 0 means to refresh as fast as possible
     // 将 QCustomPlot 添加到布局中
-    layout->addWidget(customPlot);
+    layout->addWidget(_promotionView);
+    layout->addWidget(toggleSwitchArea);
+
+    // 创建主容器 QWidget
+    // QWidget mainWidget;
+    QWidget* mainWidget = new QWidget(this);
+    mainWidget->setWindowTitle("功能导航");
 
     // 将布局设置到主容器
     mainWidget->setLayout(layout);

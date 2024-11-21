@@ -1,5 +1,5 @@
-#ifndef IHBHOME_H
-#define IHBHOME_H
+#ifndef IHBPLOT_H
+#define IHBPLOT_H
 
 #include "ihbBasePage.h"
 #include "qcustomplot.h"
@@ -26,14 +26,13 @@
 // private:
 //     rclcpp::Node::SharedPtr node_;
 // };
-class ElaPromotionCard;
-class ElaPromotionView;
+
 class ElaMenu;
-class IhbHome : public IhbBasePage
+class IhbPlot : public IhbBasePage
 {
     Q_OBJECT
 public:
-    IhbHome(QWidget* parent = nullptr);
+    IhbPlot(QWidget* parent = nullptr);
 
 public slots:
     void realtimeDataSlot();
@@ -43,8 +42,7 @@ private:
 
     QCustomPlot *customPlot = new QCustomPlot();
     QRandomGenerator *generator = QRandomGenerator::global();
-    ElaPromotionCard* _promotionCard{nullptr};
-    ElaPromotionView* _promotionView{nullptr};
+
 };
 
-#endif // IHBHOME_H
+#endif // IhbPlot_H

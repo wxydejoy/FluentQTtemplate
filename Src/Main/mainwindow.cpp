@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // setIsEnableMica(true);
     // setIsCentralStackedWidgetTransparent(true);
     setWindowIcon(QIcon(":/include/Image/shoreKeeper200.png"));
-    resize(1600, 800);
+    resize(1200, 800);
     // ElaLog::getInstance()->initMessageLog(true);
     // eTheme->setThemeMode(ElaThemeType::Dark);
     // setIsNavigationBarEnable(false);
@@ -62,6 +62,36 @@ MainWindow::MainWindow(QWidget *parent) :
     // page = new ihbBasePage(this);
     // addPageNode("HOME", page, ElaIconType::House);
     // addPageNode()
+
+
+
+
+    ElaMenuBar* menuBar = new ElaMenuBar(this);
+    menuBar->setFixedHeight(30);
+    QWidget* customWidget = new QWidget(this);
+    QVBoxLayout* customLayout = new QVBoxLayout(customWidget);
+    customLayout->setContentsMargins(0, 0, 0, 0);
+    customLayout->addWidget(menuBar);
+    customLayout->addStretch();
+    // this->setMenuBar(menuBar);
+    this->setCustomWidget(ElaAppBarType::MiddleArea, customWidget);
+    this->setCustomWidgetMaximumWidth(500);
+
+    menuBar->addElaIconAction(ElaIconType::AtomSimple, "急停(空格)");
+
+
+
+
+
+
+
+
+    //状态栏
+    ElaStatusBar* statusBar = new ElaStatusBar(this);
+    ElaText* statusText = new ElaText("初始化成功！", this);
+    statusText->setTextPixelSize(14);
+    statusBar->addWidget(statusText);
+    this->setStatusBar(statusBar);
 }
 
 MainWindow::~MainWindow()
