@@ -79,32 +79,36 @@ IhbHome::IhbHome(QWidget* parent)
     _promotionView->setIsAutoScroll(true);
 
 
-
+    // 基础模块节点组
     ElaToggleSwitch* _toggleSwitch = new ElaToggleSwitch(this);
     ElaScrollPageArea* toggleSwitchArea = new ElaScrollPageArea(this);
     QHBoxLayout* toggleSwitchLayout = new QHBoxLayout(toggleSwitchArea);
-    ElaText* toggleSwitchText = new ElaText("ElaToggleSwitch", this);
+    ElaText* toggleSwitchText = new ElaText("启动X5基础模块节点组（请先确认电源是否连接）", this);
     toggleSwitchText->setTextPixelSize(15);
     toggleSwitchLayout->addWidget(toggleSwitchText);
     toggleSwitchLayout->addWidget(_toggleSwitch);
-
-    for(int i = 0;i<1;i++){
-        ElaToggleSwitch* _toggleSwitch = new ElaToggleSwitch(this);
-        toggleSwitchLayout->addWidget(_toggleSwitch);
-    }
-
-
     toggleSwitchLayout->addStretch();
     ElaToggleSwitch* toggleSwitchDisableSwitch = new ElaToggleSwitch(this);
     ElaText* toggleSwitchDisableText = new ElaText("禁用", this);
     toggleSwitchDisableText->setTextPixelSize(15);
-    // connect(toggleSwitchDisableSwitch, &ElaToggleSwitch::toggled, this, [=](bool checked) {
-    //     _toggleSwitch->setDisabled(checked);
-    // });
+
     toggleSwitchLayout->addWidget(toggleSwitchDisableSwitch);
     toggleSwitchLayout->addWidget(toggleSwitchDisableText);
     toggleSwitchLayout->addSpacing(10);
 
+    // 大模型节点组
+    ElaToggleSwitch* _toggleSwitch2 = new ElaToggleSwitch(this);
+    ElaScrollPageArea* toggleSwitchArea2 = new ElaScrollPageArea(this);
+    QHBoxLayout* toggleSwitchLayout2 = new QHBoxLayout(toggleSwitchArea2);
+    ElaText* toggleSwitchText2 = new ElaText("启动X5大模型节点组", this);
+    toggleSwitchText2->setTextPixelSize(15);
+    toggleSwitchLayout2->addWidget(toggleSwitchText2);
+    toggleSwitchLayout2->addWidget(_toggleSwitch2);
+
+    toggleSwitchLayout2->addStretch();  
+    toggleSwitchLayout2->addWidget(toggleSwitchDisableSwitch);
+    toggleSwitchLayout2->addWidget(toggleSwitchDisableText);
+    toggleSwitchLayout2->addSpacing(10);
 
 
 
@@ -118,6 +122,7 @@ IhbHome::IhbHome(QWidget* parent)
     // 将 QCustomPlot 添加到布局中
     layout->addWidget(_promotionView);
     layout->addWidget(toggleSwitchArea);
+    layout->addWidget(toggleSwitchArea2);
 
     // 创建主容器 QWidget
     // QWidget mainWidget;

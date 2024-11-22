@@ -59,11 +59,11 @@ int main(int argc, char* argv[]) {
 #endif
 
 
-    QFont font("最像素体");
+    // QFont font("最像素体");
     // qt 6 必须
-    font.setHintingPreference(QFont::PreferNoHinting);
+    // font.setHintingPreference(QFont::PreferNoHinting);
 
-    app.setFont(font);
+    // app.setFont(font);
 
 
     // 运行主窗口

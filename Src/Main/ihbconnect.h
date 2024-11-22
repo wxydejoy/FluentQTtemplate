@@ -9,4 +9,17 @@ public:
     IhbConnect(QWidget* parent = nullptr);
 };
 
+
+class RosTopicConnect : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit RosTopicConnect(QWidget *parent = nullptr, QString topicName = "topic");
+
+signals:
+};
+
+
+
+
 #endif // IHBCONNECT_H

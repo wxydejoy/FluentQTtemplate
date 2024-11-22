@@ -25,7 +25,7 @@ IhbBasePage::IhbBasePage(QWidget *parent)
     // addCentralWidget(centralWidget);
     // addCentralWidget(centralWidget);
 
-    qDebug() << "初始化成功";
+    // qDebug() << "初始化成功";
 }
 
 

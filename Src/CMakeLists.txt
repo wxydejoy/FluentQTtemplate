@@ -62,7 +62,7 @@ else()
     qt5_add_big_resources(BIG_RESOURCES_FILE ${BIG_QRC_FILES})
 endif()
 # Target: 主程序
-list_add_prefix(SRC_EXPRESSIONS "${MAIN_DIR}/" "*.ui" "*.c" "*.cpp" "*.hpp" "*.cc")
+list_add_prefix(SRC_EXPRESSIONS "${MAIN_DIR}/" "*.ui" "*.c" "*.cpp" "*.h" "*.hpp" "*.cc")
 file(GLOB_RECURSE MAIN_SOURCES LIST_DIRECTORIES true ${SRC_EXPRESSIONS})
 list(APPEND MAIN_SOURCES "${MAIN_DIR}")
 foreach (item IN LISTS MAIN_SOURCES)
