@@ -132,7 +132,7 @@ IhbHome::IhbHome(QWidget* parent)
     // 将布局设置到主容器
     mainWidget->setLayout(layout);
 
-    qDebug() << "初始化成功";
+    // qDebug() << "初始化成功";
     // QWidget* centralWidget = new QWidget(this);
     // centralWidget->setWindowTitle("aaa");
     addCentralWidget(mainWidget);

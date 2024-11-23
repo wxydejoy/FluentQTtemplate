@@ -6,3 +6,4 @@
 *.user
 Dependencies/ElaWidgetTools.dll
 Dependencies/libElaWidgetTools.dll.a
+.cache
