@@ -76,7 +76,6 @@ int main(int argc, char* argv[]) {
     // // 连接到 WebSocket 服务
     // client.connectToServer(QUrl("ws://localhost:9090"));
 
-
     ROSBridgeClient::instance()->connectToServer(QUrl("ws://localhost:9090"));
 
     return QApplication::exec();

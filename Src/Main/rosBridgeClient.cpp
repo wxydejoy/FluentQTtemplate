@@ -1,63 +1,58 @@
-// rosbridge_client.cpp
 #include "rosBridgeClient.h"
-#include <QJsonObject>
 #include <QDebug>
-ROSBridgeClient* ROSBridgeClient::m_instance = nullptr;  // 初始化静态成员
-ROSBridgeClient::ROSBridgeClient(QObject *parent)
-    : QObject(parent), worker_(new ROSBridgeClientWorker()), timer_(new QTimer(this))
-{
-    // 连接工作线程的信号和槽
-    connect(worker_, &ROSBridgeClientWorker::connected, this, &ROSBridgeClient::onConnected);
-    connect(worker_, &ROSBridgeClientWorker::disconnected, this, &ROSBridgeClient::onDisconnected);
-    connect(worker_, &ROSBridgeClientWorker::messageReceived, this, &ROSBridgeClient::onMessageReceived);
-    connect(worker_, &ROSBridgeClientWorker::errorOccurred, this, &ROSBridgeClient::onErrorOccurred);
+#include <QWebSocket>
+#include <QJsonObject>
+#include <QJsonDocument>
 
-    // 设置定时器
-    connect(timer_, &QTimer::timeout, this, &ROSBridgeClient::onTimeout);
+// 初始化静态成员变量
+ROSBridgeClient* ROSBridgeClient::instance_ = nullptr;
+
+ROSBridgeClient::ROSBridgeClient(QObject *parent)
+    : QObject(parent), webSocket_(new QWebSocket()), publishTimer_(new QTimer(this))
+{
+    // 设置连接信号与槽
+    connect(webSocket_, &QWebSocket::connected, this, &ROSBridgeClient::onConnected);
+    connect(webSocket_, &QWebSocket::disconnected, this, &ROSBridgeClient::onDisconnected);
+    connect(webSocket_, &QWebSocket::textMessageReceived, this, &ROSBridgeClient::onMessageReceived);
+    connect(webSocket_, &QWebSocket::errorOccurred, this, &ROSBridgeClient::onErrorOccurred);
+
+    // 定时器设置，每隔 5 秒发布一次消息
+    connect(publishTimer_, &QTimer::timeout, this, &ROSBridgeClient::publishToROS);
+    publishTimer_->start(5000);  // 每 5 秒触发一次定时器
 }
 
 ROSBridgeClient::~ROSBridgeClient()
 {
-    delete worker_;
-    delete timer_;
+    if (webSocket_->state() == QAbstractSocket::ConnectedState) {
+        webSocket_->close();
+    }
+    delete webSocket_;
+}
+
+ROSBridgeClient* ROSBridgeClient::instance()
+{
+    if (!instance_) {
+        instance_ = new ROSBridgeClient();
+    }
+    return instance_;
+}
+
+void ROSBridgeClient::destroyInstance()
+{
+    delete instance_;
+    instance_ = nullptr;
 }
 
 void ROSBridgeClient::connectToServer(const QUrl &url)
 {
-    worker_->connectToServer(url);
-}
-ROSBridgeClient* ROSBridgeClient::instance()
-{
-    if (m_instance == nullptr) {
-        m_instance = new ROSBridgeClient();
-    }
-    return m_instance;
+    qDebug() << "Connecting to WebSocket server: " << url.toString();
+    webSocket_->open(url);
 }
 
-void ROSBridgeClient::publishMessage(const QString &message, const QString &topic)
+void ROSBridgeClient::disconnectFromServer()
 {
-    QJsonObject json;
-    json["op"] = "publish";
-    json["topic"] = topic;
-    json["msg"] = QJsonObject{{"data", message}};
-    
-    worker_->sendMessage(json);
-}
-
-void ROSBridgeClient::startPublishing(int interval)
-{
-    // 设置定时器间隔（毫秒）
-    timer_->start(interval);
-}
-
-void ROSBridgeClient::onTimeout()
-{
-    // 定时发布消息
-    qDebug() << "Publishing message...";
-    // 获取当前时间
-    QString currentTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
-    // 发布消息
-    publishMessage(currentTime, "/chatter");
+    qDebug() << "Disconnecting from WebSocket server...";
+    webSocket_->close();
 }
 
 void ROSBridgeClient::onConnected()
@@ -65,8 +60,10 @@ void ROSBridgeClient::onConnected()
     qDebug() << "Connected to WebSocket server";
     emit connected();
 
-    // 在连接成功后启动定时发布
-    startPublishing(5000);  // 每5秒发布一次
+    // 一旦连接成功，自动发布消息
+    QJsonObject message;
+    message["data"] = "Hello, ROS!";
+    publishMessage("/chatter", message);  // 向 /chatter 话题发布初始消息
 }
 
 void ROSBridgeClient::onDisconnected()
@@ -81,8 +78,35 @@ void ROSBridgeClient::onMessageReceived(const QString &message)
     emit messageReceived(message);
 }
 
-void ROSBridgeClient::onErrorOccurred(const QString &errorString)
+void ROSBridgeClient::onErrorOccurred(QAbstractSocket::SocketError error)
 {
-    qDebug() << "Error occurred: " << errorString;
-    emit errorOccurred(errorString);
+    qDebug() << "Error occurred: " << error;
+    emit errorOccurred(webSocket_->errorString());
+}
+
+void ROSBridgeClient::publishMessage(const QString &topic, const QJsonObject &message)
+{
+    // 构建 WebSocket 消息
+    QJsonObject json;
+    json["op"] = "publish";
+    json["topic"] = topic;
+    json["msg"] = message;
+
+    // 将 JSON 对象转换为字符串并发布
+    QJsonDocument doc(json);
+    QString messageStr = doc.toJson(QJsonDocument::Compact);
+    webSocket_->sendTextMessage(messageStr);  // 发送消息到 ROS
+    qDebug() << "Publishing message to ROS: " << messageStr;
+}
+
+void ROSBridgeClient::publishToROS()
+{
+    // 定期发布消息到多个话题
+    // static int counter = 0;
+    QJsonObject message;
+    message["data"] = "counter++";
+    
+    // 发布到多个话题
+    publishMessage("/chatter", message);
+    publishMessage("/another_topic", message);
 }

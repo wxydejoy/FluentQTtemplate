@@ -1,24 +1,24 @@
-// rosbridge_client.h
-#ifndef ROSBRIDGE_CLIENT_H
-#define ROSBRIDGE_CLIENT_H
+#ifndef ROSBRIDGECLIENT_H
+#define ROSBRIDGECLIENT_H
 
 #include <QObject>
+#include <QWebSocket>
 #include <QUrl>
+#include <QJsonObject>
+#include <QJsonDocument>
 #include <QTimer>
-#include "rosBridgeClientWorker.h"
 
 class ROSBridgeClient : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit ROSBridgeClient(QObject *parent = nullptr);
-    static ROSBridgeClient* instance();  // 单例方法
-    ~ROSBridgeClient();
+    static ROSBridgeClient* instance();  // 获取单例实例
+    static void destroyInstance();  // 销毁单例实例
 
     void connectToServer(const QUrl &url);
-    void publishMessage(const QString &message, const QString &topic);
-    void startPublishing(int interval); // 启动定时发布
+    void disconnectFromServer();
+    void publishMessage(const QString &topic, const QJsonObject &message);
 
 signals:
     void connected();
@@ -30,13 +30,17 @@ private slots:
     void onConnected();
     void onDisconnected();
     void onMessageReceived(const QString &message);
-    void onErrorOccurred(const QString &errorString);
-    void onTimeout(); // 定时器超时，发布消息
+    void onErrorOccurred(QAbstractSocket::SocketError error);
+    void publishToROS();  // 定时发布消息
 
 private:
-    ROSBridgeClientWorker *worker_;
-    QTimer *timer_; // 定时器
-    static ROSBridgeClient* m_instance;  // 单例实例
+    explicit ROSBridgeClient(QObject *parent = nullptr);
+    ~ROSBridgeClient();
+
+    static ROSBridgeClient *instance_;  // 单例实例
+
+    QWebSocket *webSocket_;   // WebSocket 客户端
+    QTimer *publishTimer_;    // 定时器
 };
 
 #endif // ROSBRIDGE_CLIENT_H
