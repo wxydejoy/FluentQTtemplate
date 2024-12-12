@@ -6,7 +6,7 @@ set(EXECUTABLE_NAME "fluentIHB")
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
-set(QT_COMPONENTS Core Gui Widgets)
+set(QT_COMPONENTS Core Gui Widgets WebSockets)
 set(OTHER_LIBS)
 set(OTHER_INCLUDE_DIR)
 

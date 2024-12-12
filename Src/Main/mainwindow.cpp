@@ -24,7 +24,7 @@
 
 #include "ihbHome.h"
 #include "ihbConnect.h"
-#include "IhbDebug.h"
+#include "ihbDebug.h"
 #include "ihbControl.h"
 #include "ihbPlot.h"
 #include "ihbLog.h"
@@ -102,6 +102,8 @@ MainWindow::MainWindow(QWidget *parent) :
     statusText->setTextPixelSize(14);
     statusBar->addWidget(statusText);
     this->setStatusBar(statusBar);
+
+    
 }
 
 MainWindow::~MainWindow()

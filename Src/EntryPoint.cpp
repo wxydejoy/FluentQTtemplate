@@ -8,6 +8,8 @@
 #include <QScreen>
 #include "mainwindow.h"
 
+#include "rosBridgeClient.h"
+
 // 这个数组的内容来自 CMakeLists.txt 中对于支持的语言的设置
 const char *supportedLocales[] = { LOCALES_NAME_ARRAY };
 
@@ -65,10 +67,17 @@ int main(int argc, char* argv[]) {
 
     // app.setFont(font);
 
-
     // 运行主窗口
     MainWindow mv;
     mv.show();
+    // 只能在这里创建，不知道为什么  ：  创建 WebSocket 客户端的操作应该在主线程中进行  因为 QWebSocket 必须与主线程（UI 线程）一起工作。
+    // ROSBridgeClient client;
+
+    // // 连接到 WebSocket 服务
+    // client.connectToServer(QUrl("ws://localhost:9090"));
+
+
+    ROSBridgeClient::instance()->connectToServer(QUrl("ws://localhost:9090"));
 
     return QApplication::exec();
 }

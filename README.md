@@ -114,3 +114,10 @@ set(GOOGLE_TEST_VERSION "v1.14.0")
 
 或直接构建 `<可执行文件名>_Test` 这个 Target，
 然后直接运行测试对应的可执行文件，或通过 Google Test 的 filter 指定运行的测试。
+
+
+
+# ros
+
+sudo apt install ros-humble-rosbridge-suite
+ros2 run rosbridge_server rosbridge_websocket

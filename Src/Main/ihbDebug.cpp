@@ -6,6 +6,7 @@
 #include <QDial>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QWebSocket>
 
 #include "ElaPushButton.h"
 #include "ElaLineEdit.h"
@@ -23,6 +24,8 @@ IhbDebug::IhbDebug(QWidget* parent)
     layout->setContentsMargins(0, 0, 0, 0);
 
 
+
+    
 
     // grid 2x2
     // for (int i = 0; i < 2; i++) {

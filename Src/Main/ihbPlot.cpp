@@ -1,4 +1,4 @@
-#include "IhbPlot.h"
+#include "ihbPlot.h"
 #include "ihbBasePage.h"
 #include "ElaAcrylicUrlCard.h"
 #include "ElaFlowLayout.h"

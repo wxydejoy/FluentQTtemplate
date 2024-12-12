@@ -1,4 +1,4 @@
-#include "IhbLog.h"
+#include "ihbLog.h"
 #include "ihbBasePage.h"
 #include "ElaAcrylicUrlCard.h"
 #include "ElaFlowLayout.h"

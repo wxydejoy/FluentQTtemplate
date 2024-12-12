@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "ElaWindow.h"
-#include "ihbhome.h"
+#include "ihbHome.h"
 // #include "T_Home.h"
 namespace Ui {
 class MainWindow;
